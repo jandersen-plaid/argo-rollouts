@@ -786,6 +786,11 @@ func TestDelayCanaryStableServiceLabelInjection(t *testing.T) {
 		assert.False(t, canaryInjected)
 		_, stableInjected := stableSvc.Spec.Selector[v1alpha1.DefaultRolloutUniqueLabelKey]
 		assert.False(t, stableInjected)
+
+		assert.NotNil(t, roCtx.skippedSelectorSwap)
+		if roCtx.skippedSelectorSwap != nil {
+			assert.True(t, *roCtx.skippedSelectorSwap)
+		}
 	}
 	{
 		// next ensure we do update service because new/stable are now available
